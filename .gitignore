@@ -1,0 +1,6 @@
+# Sorties d'execution (regenerables)
+loop-iteration-*.log
+SHARED_TASK_NOTES.md
+__pycache__/
+*.pyc
+.DS_Store
