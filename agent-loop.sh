@@ -14,9 +14,10 @@ GOAL="${GOAL:-GOAL.md}"
 BRANCH="${BRANCH:-agent/auto}"
 NOTES="SHARED_TASK_NOTES.md"
 # >>> Le seul endroit couple a un outil : change cette ligne pour changer de modele <<<
-LLM_CMD="${LLM_CMD:-claude -p --dangerously-skip-permissions --allowedTools Read,Write,Edit,Bash,Grep,Glob,WebSearch,WebFetch}"
+LLM_CMD="${LLM_CMD:-claude -p --dangerously-skip-permissions}"
 
-[ -d .git ] || { echo "ERREUR: pas un depot git. Lance: git init"; exit 1; }
+git config --global --add safe.directory '*' >/dev/null 2>&1 || true
+[ -d .git ] || git init -q
 [ -f "$GOAL" ] || { echo "ERREUR: objectif $GOAL introuvable."; exit 1; }
 git config user.email >/dev/null 2>&1 || git config user.email "agent@local"
 git config user.name  >/dev/null 2>&1 || git config user.name  "agent-local"
@@ -36,7 +37,7 @@ Travaille UNE etape concrete vers l'objectif. Mets a jour $NOTES (fait / reste a
 Si l'objectif est ENTIEREMENT atteint et verifie, ecris sur une ligne seule: OBJECTIF_ATTEINT
 Ne fais AUCUNE operation git. Reste dans ce dossier."
   set +e
-  OUT="$($LLM_CMD "$PROMPT" 2>&1)"
+  OUT="$(printf '%s' "$PROMPT" | $LLM_CMD 2>&1)"
   set -e
   echo "$OUT" | tee "loop-iteration-$i.log"
   if echo "$OUT" | grep -q "OBJECTIF_ATTEINT"; then
