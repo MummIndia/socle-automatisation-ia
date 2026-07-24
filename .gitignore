@@ -1,6 +1,33 @@
+# Secrets et configuration locale.
+# Ce depot est public et contient des scripts d'automatisation : une cle d'API
+# posee a cote d'un playbook partirait sans bruit avec un `git add .`.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+credentials*.json
+client_secret*.json
+service-account*.json
+*token*.json
+.netrc
+
+# Configuration d'outils locaux (chemins et reglages propres a la machine)
+.claude/
+.vscode/
+.idea/
+
 # Sorties d'execution (regenerables)
 loop-iteration-*.log
 SHARED_TASK_NOTES.md
+*.log
+
+# Fichiers temporaires
+*.tmp
+*~
 __pycache__/
 *.pyc
 .DS_Store
+Thumbs.db
