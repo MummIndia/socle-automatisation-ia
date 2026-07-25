@@ -1,65 +1,83 @@
-# CLAUDE.md
+# Consignes de travail
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+Ce dépôt outille la production de documents argumentés à partir de données
+publiques : des chiffres, des sources, des dates. Une erreur y coûte plus cher
+qu'ailleurs, parce qu'un document remis à un destinataire ne se corrige pas
+après coup — et parce qu'un playbook fautif reproduit sa faute à chaque reprise.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
-
-## 1. Think Before Coding
-
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
-
-## 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-- "Add validation" -> "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" -> "Write a test that reproduces it, then make it pass"
-- "Refactor X" -> "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-1. [Step] -> verify: [check]
-2. [Step] -> verify: [check]
-3. [Step] -> verify: [check]
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+Ces consignes sont écrites autour de ce qui rate en pratique, pas autour de
+bonnes intentions. Elles ralentissent volontairement le travail. Pour une tâche
+triviale, garde ton jugement.
 
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+## Un chiffre sans source n'existe pas
 
-<!-- Source : github.com/multica-ai/andrej-karpathy-skills (CLAUDE.md) -->
+C'est la règle qui prime sur toutes les autres.
+
+- Aucune valeur ne doit apparaître dans un livrable sans qu'on puisse dire
+  **d'où elle vient et de quand elle date**. Millésime compris : « INSEE RP2022 »
+  n'est pas « INSEE ».
+- Si un chiffre manque, il manque. On l'écrit. On ne comble pas un trou avec un
+  ordre de grandeur plausible, et surtout pas avec une valeur reconstituée de
+  mémoire.
+- Une estimation reste une estimation, et elle est présentée comme telle, avec
+  sa méthode.
+- Ce qui est calculé se vérifie : les sous-totaux doivent redonner le total.
+  Vérifie l'arithmétique avant de livrer, pas après.
+- Les limites d'une donnée font partie de la donnée. Un échantillon faible, une
+  série volatile, une catégorie qui recouvre mal la réalité : ça se signale dans
+  le document, ça ne s'efface pas parce que ça affaiblit le propos.
+
+## Dire ce qu'on ne sait pas
+
+Le silence coûte plus cher que la question.
+
+- Une consigne ambiguë se clarifie **avant** d'agir, pas après avoir produit
+  quelque chose qu'il faudra jeter.
+- Quand plusieurs lectures sont possibles, expose-les et demande. Ne tranche pas
+  discrètement en espérant tomber juste.
+- Une hypothèse implicite est une erreur en attente. Énonce-la.
+- Si une approche plus simple existe, dis-le, même si ce n'est pas ce qui a été
+  demandé. Contredire est utile ; obéir en sachant que c'est bancal ne l'est pas.
+
+## Le périmètre demandé, rien de plus
+
+Chaque ligne produite doit pouvoir se rattacher à une demande explicite.
+
+- Pas de fonctionnalité « tant qu'à faire ».
+- Pas d'abstraction pour un cas unique, pas de configuration que personne n'a
+  réclamée, pas de gestion d'erreur pour des situations impossibles.
+- On ne réécrit pas du code ou du texte voisin parce qu'on le ferait autrement.
+  On épouse le style existant.
+- Du code mort repéré au passage se **signale**, il ne se supprime pas de sa
+  propre initiative.
+- Ce que tes propres modifications rendent inutile — un import, une variable —
+  se nettoie. Ce qui était déjà là ne te regarde pas.
+
+Un bon test : si cent lignes en valaient trente, recommence.
+
+## Vérifier, pas supposer
+
+« Ça devrait marcher » n'est pas un état d'avancement.
+
+Une tâche floue se transforme d'abord en critère observable :
+
+| Demande | Objectif vérifiable |
+|---|---|
+| « le tableau est faux » | isoler l'écart sur une ligne précise, puis montrer que la somme retombe juste |
+| « ajouter les données 2023 » | chaque valeur ajoutée porte sa source et son millésime, et les séries restent comparables |
+| « rendre le document plus lisible » | un critère choisi d'avance — nombre de pages, densité des tableaux — plutôt qu'une impression |
+
+Pour une tâche en plusieurs temps, annonce le plan et **ce qui prouvera** chaque
+étape. Un critère solide permet de travailler en autonomie ; un critère mou
+(« que ce soit propre ») oblige à revenir demander à chaque pas.
+
+Ne déclare pas terminé ce que tu n'as pas constaté. Si une vérification n'a pas
+pu être faite, dis laquelle et pourquoi.
+
+---
+
+**Ces consignes fonctionnent si** : les questions arrivent avant la production
+et non après l'erreur, les diffs ne contiennent que ce qui était demandé, et
+aucun chiffre publié ne reste orphelin de sa source.
