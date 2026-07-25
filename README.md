@@ -42,5 +42,18 @@ cd playbooks/ma-tache && bash ../../agent-loop.sh 5
 Plafond d'itérations · kill switch (fichier `STOP`) · 1 commit git par étape (tout est annulable) ·
 arrêt automatique sur `OBJECTIF_ATTEINT`.
 
+## Licence
+
+Ce socle est fait pour être repris. Deux licences, selon la nature des fichiers :
+
+- **Gabarits, playbooks et documentation** (`*.md`) —
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.fr), texte
+  intégral dans [`LICENSE`](LICENSE). Reprise, adaptation et usage commercial
+  autorisés, à condition de créditer l'auteur et d'indiquer vos modifications.
+- **Scripts** (`agent-loop.sh`) — [MIT](LICENSE-MIT).
+
+Le nom et le logo de l'association Cévennes 2050 ne sont pas couverts : ils
+appartiennent à l'association.
+
 ---
-*Projet personnel — Matthieu / Cévennes 2050.*
+*Projet personnel — Matthieu (github.com/MummIndia).*
